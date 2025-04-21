@@ -29,18 +29,22 @@ A Django-based web application for managing notes across multiple tables. Built 
 
 ```
 NOTES/
-├── api/
-│   ├── __init__.py
-│   ├── notes.py          # Note and TablesNotes logic
-│   └── ...
-├── notes_project/
-│   ├── settings.py
-│   ├── urls.py
-│   └── ...
-├── tests/
-│   └── test_notes.py     # Pytest-based tests
-├── db.json               # TinyDB data file
-├── manage.py
+├── src ├── api/
+│       │   ├── __init__.py
+│       │   ├── db.json      # TinyDB data file
+│       │   ├── notes.py     # Note and TablesNotes logic
+│       │   └── test_notes.py     # Pytest-based tests
+│       ├── webapp/
+│       │   ├── settings.py
+│       │   ├── urls.py
+│       │   └── ...
+│       ├── notes/
+│       │   ├── apps.py
+│       │   ├── urls.py
+│       │   └── ...
+│       ├── manage.py
+│       └── ...
+├── README.md 
 └── requirements.txt
 ```
 
@@ -80,12 +84,6 @@ Run all tests using `pytest`:
 
 ```bash
 pytest
-```
-
-Or use Django’s test runner if applicable:
-
-```bash
-python manage.py test
 ```
 
 ## 🧠 Notes Storage
