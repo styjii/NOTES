@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ table_name }}</title>
+    
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+    <div class="navbar bg-dark navbar-dark mb-4">
+        <div class="container-fluid">
+            <a href="#" class="navbar-brand">LIST OF {{ table_name }}</a>
+            <div class="navbar bg-dark navbar-dark p-0">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="container mb-4">
+        <ul class="list-group">
+            {% for note in notes %}
+                <div class="row mb-2 display-note">
+                    <div class="count col-2 col-sm-1 d-flex justify-content-center align-items-center bg-primary text-white">
+                        {{ forloop.counter }}
+                    </div>
+                    <li class="list-group-item list-group-item-secondary col-10 col-sm-7">{{ note }}</li>
+                    <div class="btn-group col-12 col-sm-4 p-0">
+                        <button type="button" class="btn btn-secondary btn-edit">Edit</button>
+                        <button type="button" class="btn btn-secondary btn-delete">Delete</button>
+                    </div>
+                </div>
+
+                <div class="row mb-2 update-note">
+                    <form action="{% url 'update-note' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-8 p-0">
+                                <input type="text" name="new_content" class="form-control" value="{{ note }}" autocomplete="off">
+                                <input type="hidden" name="table_name" class="form-control" value="{{ table_name }}">
+                                <input type="hidden" name="content" class="form-control" value="{{ note }}">
+                            </div>
+                            <div class="btn-group col-sm-4 p-0">
+                                <button type="submit" class="btn btn-secondary">Save</button>
+                                <button type="reset" class="btn btn-secondary btn-cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <form action="{% url 'delete-note' %}" method="post" class="d-none">
+                    {% csrf_token %}
+                    <input type="text" name="table_name" value="{{ table_name }}">
+                    <input type="text" name="content" value="{{ note }}">
+                    <button type="submit">Delete</button>
+                </form>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="container">
+        <form action="{% url 'create-note' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group mb-2">
+                <label for="content" class="input-group-text">{{ table_name }}</label>
+                <input type="text" name="content" id="content" class="form-control" autocomplete="off">
+            </div>
+            <input type="hidden" name="table_name" value="{{ table_name }}">
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary d-block">SAVE</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

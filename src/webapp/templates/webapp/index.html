@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HOME PAGE</title>
+    
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+    <div class="navbar bg-dark navbar-dark mb-4">
+        <div class="container-fluid">
+            <a href="#" class="navbar-brand">ALL GROUPS</a>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="container mb-4">
+        <div class="list-group">
+            {% for table in tables %}
+                <div class="row mb-2">
+                    <li class="list-group-item list-group-item-secondary col-sm-8">{{ table }}</li>
+                    <div class="btn-group col-sm-4 p-0">
+                        <a href="notes/detail-{{ table }}" class="btn btn-secondary">View</a>
+                        <a href="/delete-table-{{ table }}" class="btn btn-secondary">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Add a Group</h2>
+        <form action="{% url 'create-table' %}" method="get">
+            {% csrf_token %}
+            <div class="input-group mb-2">
+                <label for="table_name" class="input-group-text">GROUP</label>
+                <input type="text" name="table_name" id="table_name" class="form-control" autocomplete="off">
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary d-block">SAVE</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
