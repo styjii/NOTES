@@ -34,11 +34,15 @@
     <div class="container mb-4">
         <div class="list-group">
             {% for table in tables %}
-                <div class="row mb-2">
-                    <li class="list-group-item list-group-item-secondary col-sm-8">{{ table }}</li>
-                    <div class="btn-group col-sm-4 p-0">
+                <div class="row  mb-2">
+                    <div class="list-group-item list-group-item-secondary col-sm-8">{{ table }}</div>
+                    <div class="btn-group col-sm-4 p-0 btn-option">
                         <a href="notes/detail-{{ table }}" class="btn btn-secondary">View</a>
-                        <a href="/delete-table-{{ table }}" class="btn btn-secondary">Delete</a>
+                        <button type="button" class="btn btn-primary btn-delete">Delete</button>
+                    </div>
+                    <div class="btn-group col-sm-4 p-0 btn-confirm" style="display: none;">
+                        <a href="/delete-table-{{ table }}" class="btn btn-secondary">Yes</a>
+                        <button type="button" class="btn btn-primary btn-cancel">Cancel</button>
                     </div>
                 </div>
             {% endfor %}
@@ -58,5 +62,6 @@
             </div>
         </form>
     </div>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
