@@ -1,3 +1,2 @@
 .env/
-src/api/db.json
 cli_tool.py
